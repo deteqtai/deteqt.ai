@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#logoGradient)" opacity="0.1"/>
+
+  <!-- Main logo shape - abstract AI symbol -->
+  <path d="M 100 40 L 140 80 L 140 120 L 100 160 L 60 120 L 60 80 Z"
+        fill="url(#logoGradient)"
+        stroke="url(#logoGradient)"
+        stroke-width="3"/>
+
+  <!-- Inner details -->
+  <circle cx="100" cy="80" r="8" fill="white"/>
+  <circle cx="85" cy="100" r="6" fill="white"/>
+  <circle cx="115" cy="100" r="6" fill="white"/>
+  <circle cx="100" cy="120" r="8" fill="white"/>
+
+  <!-- Connecting lines -->
+  <line x1="100" y1="88" x2="100" y2="112" stroke="white" stroke-width="2"/>
+  <line x1="91" y1="100" x2="109" y2="100" stroke="white" stroke-width="2"/>
+</svg>
