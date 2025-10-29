@@ -36,6 +36,8 @@
         // Configuration - EmailJS credentials
         const SERVICE_ID = 'service_rh40qdg';
         const USER_TEMPLATE_ID = 'template_2tlcpty';
+        const ADMIN_TEMPLATE_ID = 'template_xha3i59';
+        const ADMIN_EMAIL = 'we@deteqt.ai';
         const PUBLIC_KEY = 'H82v1rZUW3t2_Usfx';
 
         // Initialize EmailJS with your public key
@@ -66,10 +68,32 @@
             'g-recaptcha-response': recaptchaResponse
         };
 
-        // Send user thank you email
-        emailjs.send(SERVICE_ID, USER_TEMPLATE_ID, userTemplateParams)
-        .then(function(response) {
-            console.log('Email sent successfully!', response);
+        // Template parameters for admin notification email
+        const submissionDate = new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZoneName: 'short'
+        });
+
+        const adminTemplateParams = {
+            to_email: ADMIN_EMAIL,
+            user_email: userEmail,
+            user_domain: userEmail.split('@')[1],
+            industries: industriesList,
+            submission_date: submissionDate,
+            current_year: new Date().getFullYear()
+        };
+
+        // Send both emails (user thank you + admin notification)
+        Promise.all([
+            emailjs.send(SERVICE_ID, USER_TEMPLATE_ID, userTemplateParams),
+            emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, adminTemplateParams)
+        ])
+        .then(function(responses) {
+            console.log('Both emails sent successfully!', responses);
 
             // Reset reCAPTCHA
             if (typeof grecaptcha !== 'undefined') {
