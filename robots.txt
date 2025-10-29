@@ -1,0 +1,18 @@
+# Deteqt AI - robots.txt
+User-agent: *
+Allow: /
+Disallow: /assets/js/
+Disallow: /assets/css/
+
+# Sitemap
+Sitemap: https://deteqt.ai/sitemap.xml
+
+# Crawl-delay for polite crawlers
+Crawl-delay: 10
+
+# Block aggressive bots
+User-agent: AhrefsBot
+Crawl-delay: 30
+
+User-agent: SemrushBot
+Crawl-delay: 30
