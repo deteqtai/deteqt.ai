@@ -293,7 +293,7 @@
                     </div>
 
                     <div class="form-group recaptcha-container">
-                        <div class="g-recaptcha" data-sitekey="6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA"></div>
+                        <div id="recaptcha-element"></div>
                     </div>
 
                     <button type="submit" class="submit-button">
@@ -345,7 +345,7 @@
     </footer>
 
     <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit&hl=en" async defer></script>
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <!-- Theme Toggle Script -->

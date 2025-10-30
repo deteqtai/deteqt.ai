@@ -45,6 +45,48 @@
             }
         }
 
+        // Store recaptcha widget ID
+        let recaptchaWidgetId = null;
+
+        // Render reCAPTCHA with theme
+        function renderRecaptcha(theme) {
+            const recaptchaElement = document.getElementById('recaptcha-element');
+            if (!recaptchaElement || typeof grecaptcha === 'undefined' || typeof grecaptcha.render !== 'function') return;
+
+            const recaptchaTheme = theme === THEMES.DARK ? 'dark' : 'light';
+
+            try {
+                // Clear existing widget
+                recaptchaElement.innerHTML = '';
+
+                // Render new widget with theme
+                recaptchaWidgetId = grecaptcha.render('recaptcha-element', {
+                    'sitekey': '6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA',
+                    'theme': recaptchaTheme,
+                    'callback': function(response) {
+                        // Trigger custom event for form validation
+                        const event = new CustomEvent('recaptcha-verified', { detail: { response } });
+                        document.dispatchEvent(event);
+                    }
+                });
+            } catch (e) {
+                // Silently fail if reCAPTCHA is not ready
+            }
+        }
+
+        // Update reCAPTCHA theme
+        function updateRecaptchaTheme(theme) {
+            if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.render === 'function') {
+                renderRecaptcha(theme);
+            }
+        }
+
+        // Initialize reCAPTCHA when API is ready
+        window.onRecaptchaLoad = function() {
+            const currentTheme = body.getAttribute('data-theme') || THEMES.DARK;
+            renderRecaptcha(currentTheme);
+        };
+
         // Apply theme to html and body
         function applyTheme(theme) {
             html.setAttribute('data-theme', theme);
@@ -55,6 +97,9 @@
 
             // Update meta theme-color for mobile browsers
             updateMetaThemeColor(theme);
+
+            // Update reCAPTCHA theme
+            updateRecaptchaTheme(theme);
 
             // Track theme change with Google Analytics if available
             if (typeof gtag !== 'undefined') {
