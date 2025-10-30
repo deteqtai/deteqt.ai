@@ -1087,6 +1087,14 @@ body[data-theme="dark"],
     color: #ff6b6b;
 }
 
+[data-theme="dark"] .form-input.error {
+    border-color: #ff6b6b;
+}
+
+[data-theme="dark"] .form-input.error:focus {
+    border-color: #ff6b6b;
+}
+
 [data-theme="dark"] .checkbox-label {
     background: rgba(255, 255, 255, 0.03);
     border-color: rgba(255, 255, 255, 0.15);
