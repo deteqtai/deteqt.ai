@@ -51,26 +51,23 @@
 
         // Render reCAPTCHA with theme
         function renderRecaptcha(theme) {
-            const recaptchaElement = document.getElementById('recaptcha-element');
-            if (!recaptchaElement || typeof grecaptcha === 'undefined' || typeof grecaptcha.render !== 'function') {
+            const container = document.getElementById('recaptcha-element');
+            if (!container || typeof grecaptcha === 'undefined' || typeof grecaptcha.render !== 'function') {
                 return;
             }
 
             const recaptchaTheme = theme === THEMES.DARK ? 'dark' : 'light';
 
-            try {
-                // If already rendered, remove the old widget completely
-                if (recaptchaRendered && recaptchaWidgetId !== null) {
-                    try {
-                        // Clear the container
-                        recaptchaElement.innerHTML = '';
-                    } catch (e) {
-                        // Ignore errors
-                    }
-                }
+            // Always clear the container first
+            container.innerHTML = '';
 
-                // Render new widget with theme
-                recaptchaWidgetId = grecaptcha.render('recaptcha-element', {
+            // Create a new div element for the widget
+            const widgetDiv = document.createElement('div');
+            container.appendChild(widgetDiv);
+
+            try {
+                // Render widget in the new div
+                recaptchaWidgetId = grecaptcha.render(widgetDiv, {
                     'sitekey': '6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA',
                     'theme': recaptchaTheme,
                     'callback': function(response) {
@@ -89,28 +86,8 @@
 
                 recaptchaRendered = true;
             } catch (e) {
-                // If render fails, it might be because element already has a widget
-                // Clear and try again
-                recaptchaElement.innerHTML = '';
-                try {
-                    recaptchaWidgetId = grecaptcha.render('recaptcha-element', {
-                        'sitekey': '6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA',
-                        'theme': recaptchaTheme,
-                        'callback': function(response) {
-                            if (typeof window.updateRecaptchaState === 'function') {
-                                window.updateRecaptchaState(true);
-                            }
-                        },
-                        'expired-callback': function() {
-                            if (typeof window.updateRecaptchaState === 'function') {
-                                window.updateRecaptchaState(false);
-                            }
-                        }
-                    });
-                    recaptchaRendered = true;
-                } catch (err) {
-                    // Final fallback - silently fail
-                }
+                // Silently handle errors
+                recaptchaRendered = false;
             }
         }
 
