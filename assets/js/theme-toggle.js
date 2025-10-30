@@ -47,30 +47,70 @@
 
         // Store recaptcha widget ID
         let recaptchaWidgetId = null;
+        let recaptchaRendered = false;
 
         // Render reCAPTCHA with theme
         function renderRecaptcha(theme) {
             const recaptchaElement = document.getElementById('recaptcha-element');
-            if (!recaptchaElement || typeof grecaptcha === 'undefined' || typeof grecaptcha.render !== 'function') return;
+            if (!recaptchaElement || typeof grecaptcha === 'undefined' || typeof grecaptcha.render !== 'function') {
+                return;
+            }
 
             const recaptchaTheme = theme === THEMES.DARK ? 'dark' : 'light';
 
             try {
-                // Clear existing widget
-                recaptchaElement.innerHTML = '';
+                // If already rendered, remove the old widget completely
+                if (recaptchaRendered && recaptchaWidgetId !== null) {
+                    try {
+                        // Clear the container
+                        recaptchaElement.innerHTML = '';
+                    } catch (e) {
+                        // Ignore errors
+                    }
+                }
 
                 // Render new widget with theme
                 recaptchaWidgetId = grecaptcha.render('recaptcha-element', {
                     'sitekey': '6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA',
                     'theme': recaptchaTheme,
                     'callback': function(response) {
-                        // Trigger custom event for form validation
-                        const event = new CustomEvent('recaptcha-verified', { detail: { response } });
-                        document.dispatchEvent(event);
+                        // Update form state when verified
+                        if (typeof window.updateRecaptchaState === 'function') {
+                            window.updateRecaptchaState(true);
+                        }
+                    },
+                    'expired-callback': function() {
+                        // Update form state when expired
+                        if (typeof window.updateRecaptchaState === 'function') {
+                            window.updateRecaptchaState(false);
+                        }
                     }
                 });
+
+                recaptchaRendered = true;
             } catch (e) {
-                // Silently fail if reCAPTCHA is not ready
+                // If render fails, it might be because element already has a widget
+                // Clear and try again
+                recaptchaElement.innerHTML = '';
+                try {
+                    recaptchaWidgetId = grecaptcha.render('recaptcha-element', {
+                        'sitekey': '6LdaZvsrAAAAABf-inNHRjT73wikcB5pQTouZmCA',
+                        'theme': recaptchaTheme,
+                        'callback': function(response) {
+                            if (typeof window.updateRecaptchaState === 'function') {
+                                window.updateRecaptchaState(true);
+                            }
+                        },
+                        'expired-callback': function() {
+                            if (typeof window.updateRecaptchaState === 'function') {
+                                window.updateRecaptchaState(false);
+                            }
+                        }
+                    });
+                    recaptchaRendered = true;
+                } catch (err) {
+                    // Final fallback - silently fail
+                }
             }
         }
 

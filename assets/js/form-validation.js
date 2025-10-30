@@ -206,6 +206,12 @@
             updateSubmitButton();
         };
 
+        // Global function to update reCAPTCHA state
+        window.updateRecaptchaState = function(isValid) {
+            formState.recaptchaValid = isValid;
+            updateSubmitButton();
+        };
+
         // List of common free email providers
         const freeEmailProviders = [
             'gmail.com',
