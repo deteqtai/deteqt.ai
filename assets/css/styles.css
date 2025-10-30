@@ -580,13 +580,13 @@ body {
     box-shadow: 0 2px 8px rgba(5, 50, 145, 0.2);
 }
 
-.submit-button:hover {
+.submit-button:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(5, 50, 145, 0.25);
     opacity: 0.95;
 }
 
-.submit-button:active {
+.submit-button:active:not(:disabled) {
     transform: translateY(0);
     box-shadow: 0 2px 8px rgba(5, 50, 145, 0.2);
 }
@@ -1129,7 +1129,7 @@ body[data-theme="dark"],
     box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
 }
 
-[data-theme="dark"] .submit-button:hover {
+[data-theme="dark"] .submit-button:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
     opacity: 0.95;
