@@ -22,7 +22,6 @@
 
         // Check if EmailJS is loaded
         if (typeof emailjs === 'undefined') {
-            console.error('EmailJS is not loaded. Please check the script tag.');
             submitButton.disabled = false;
             submitButton.querySelector('.button-text').textContent = 'Submit';
             showError(
@@ -91,8 +90,6 @@
             emailjs.send(SERVICE_ID, ADMIN_TEMPLATE_ID, adminTemplateParams)
         ])
         .then(function(responses) {
-            console.log('Both emails sent successfully!', responses);
-
             // Reset reCAPTCHA
             if (typeof grecaptcha !== 'undefined') {
                 grecaptcha.reset();
@@ -127,8 +124,6 @@
             }, 5000);
         })
         .catch(function(error) {
-            console.error('Failed to send emails:', error);
-
             // Reset reCAPTCHA
             if (typeof grecaptcha !== 'undefined') {
                 grecaptcha.reset();
@@ -179,13 +174,6 @@
         function updateSubmitButton() {
             const isValid = formState.emailValid && formState.industriesValid && formState.recaptchaValid;
             submitButton.disabled = !isValid;
-
-            console.log('🔘 Submit button state:', {
-                emailValid: formState.emailValid,
-                industriesValid: formState.industriesValid,
-                recaptchaValid: formState.recaptchaValid,
-                buttonEnabled: isValid
-            });
         }
 
         // Initialize button as disabled
@@ -200,7 +188,6 @@
 
                 // Only update button if state changed
                 if (wasValid !== formState.recaptchaValid) {
-                    console.log('🔐 reCAPTCHA state changed:', formState.recaptchaValid);
                     updateSubmitButton();
                 }
             }
@@ -217,7 +204,6 @@
             formState.industriesValid = false;
             formState.recaptchaValid = false;
             updateSubmitButton();
-            console.log('🔄 Form state reset');
         };
 
         // List of common free email providers
@@ -243,11 +229,8 @@
 
         // Check MX records using Google Public DNS API
         async function checkMXRecords(domain) {
-            console.log('🔍 Checking MX records for domain:', domain);
-
             try {
                 const url = `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=MX`;
-                console.log('🌐 Fetching:', url);
 
                 const response = await fetch(url, {
                     method: 'GET',
@@ -256,31 +239,24 @@
                     }
                 });
 
-                console.log('📡 Response status:', response.status);
-
                 if (!response.ok) {
                     // If DNS API fails, return true (fallback - don't block user)
-                    console.warn('⚠️ DNS API request failed, allowing email:', response.status);
                     return { valid: true, fallback: true };
                 }
 
                 const data = await response.json();
-                console.log('📦 DNS Response data:', data);
 
                 // Status 0 means NOERROR (successful query)
                 // Check if Answer array exists and has MX records
                 if (data.Status === 0 && data.Answer && data.Answer.length > 0) {
                     // MX records found
-                    console.log('✅ MX records found:', data.Answer.length);
                     return { valid: true, fallback: false };
                 } else {
                     // No MX records found
-                    console.log('❌ No MX records found. Status:', data.Status);
                     return { valid: false, fallback: false };
                 }
             } catch (error) {
                 // Network error or other issue - fallback to allowing the email
-                console.error('❌ MX record check failed:', error);
                 return { valid: true, fallback: true };
             }
         }
@@ -321,11 +297,8 @@
 
         // Async email validation with MX record check
         async function validateEmailWithMX(email) {
-            console.log('🔍 validateEmailWithMX called for:', email);
-
             // First, do basic validation
             const basicValidation = validateEmail(email);
-            console.log('📋 Basic validation result:', basicValidation);
 
             if (!basicValidation.valid) {
                 return basicValidation;
@@ -333,7 +306,6 @@
 
             // Extract domain
             const domain = email.split('@')[1]?.toLowerCase();
-            console.log('🌐 Extracted domain:', domain);
 
             if (!domain) {
                 return {
@@ -343,9 +315,7 @@
             }
 
             // Check MX records
-            console.log('⏳ Calling checkMXRecords...');
             const mxCheck = await checkMXRecords(domain);
-            console.log('✔️ MX check result:', mxCheck);
 
             if (!mxCheck.valid) {
                 return {
@@ -391,12 +361,8 @@
             emailError.textContent = 'Verifying email domain...';
             emailError.style.color = '#666';
 
-            console.log('🔵 Blur event - validating email:', email);
-
             // Run async validation with MX check
             const validation = await validateEmailWithMX(email);
-
-            console.log('🔵 Blur validation result:', validation);
 
             // Remove validating state
             this.classList.remove('validating');
@@ -503,21 +469,17 @@
         // Form submission
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            console.log('📝 Form submitted');
 
             const email = emailInput.value.trim();
-            console.log('📧 Email entered:', email);
 
             // Get selected industries from checkboxes
             const selectedIndustries = Array.from(industriesCheckboxes)
                 .filter(cb => cb.checked)
                 .map(cb => cb.value);
             const industriesValidation = validateIndustries(selectedIndustries);
-            console.log('🏭 Industries selected:', selectedIndustries);
 
             // Validate industries first
             if (!industriesValidation.valid) {
-                console.log('❌ Industries validation failed');
                 showError(industriesContainer, industriesError, industriesValidation.message);
                 if (industriesCheckboxes.length > 0) industriesCheckboxes[0].focus();
                 return;
@@ -525,10 +487,8 @@
 
             // Get reCAPTCHA response
             const recaptchaResponse = grecaptcha.getResponse();
-            console.log('🔐 reCAPTCHA response:', recaptchaResponse ? 'Present' : 'Missing');
 
             if (!recaptchaResponse) {
-                console.log('❌ reCAPTCHA validation failed');
                 showError(emailInput, emailError, 'Please complete the reCAPTCHA verification.');
                 return;
             }
@@ -536,14 +496,11 @@
             // Disable submit button and show verifying state
             submitButton.disabled = true;
             submitButton.querySelector('.button-text').textContent = 'Verifying email...';
-            console.log('🔄 Starting MX validation...');
 
             // Validate email with MX record check (async)
             const emailValidation = await validateEmailWithMX(email);
-            console.log('📊 Email validation result:', emailValidation);
 
             if (!emailValidation.valid) {
-                console.log('❌ Email validation failed:', emailValidation.message);
                 showError(emailInput, emailError, emailValidation.message);
                 emailInput.focus();
                 // Re-enable submit button based on form state
@@ -558,7 +515,6 @@
 
             // Update button text to submitting
             submitButton.querySelector('.button-text').textContent = 'Submitting...';
-            console.log('✅ All validations passed, sending emails...');
 
             // Send emails
             sendEmails(email, selectedIndustries, submitButton, recaptchaResponse);

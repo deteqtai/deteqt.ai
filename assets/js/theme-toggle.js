@@ -32,7 +32,6 @@
             try {
                 return localStorage.getItem('deteqt-theme') || THEMES.DARK;
             } catch (e) {
-                console.warn('localStorage not available, using default theme');
                 return THEMES.DARK;
             }
         }
@@ -42,7 +41,7 @@
             try {
                 localStorage.setItem('deteqt-theme', theme);
             } catch (e) {
-                console.warn('Could not save theme to localStorage');
+                // Fail silently if localStorage is not available
             }
         }
 
@@ -137,7 +136,5 @@
                 toggleTheme();
             }
         });
-
-        console.log('Theme toggle initialized. Current theme:', savedTheme);
     }
 })();
