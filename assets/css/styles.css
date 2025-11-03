@@ -1594,6 +1594,23 @@ body[data-theme="light"],
     border-color: var(--color-accent-green);
 }
 
+/* Dark Theme Text Colors */
+[data-theme="dark"] .privacy-container {
+    background: #000000;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .privacy-text,
+[data-theme="dark"] .privacy-intro,
+[data-theme="dark"] .privacy-list li,
+[data-theme="dark"] .privacy-contact-item {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="dark"] .privacy-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+}
+
 /* Footer Navigation Links */
 .footer-links {
     display: flex;
