@@ -1,0 +1,137 @@
+{
+  "$schema": "https://deeprank.ai/schema/v1",
+  "version": "1.0",
+  "organization": {
+    "name": "Deteqt AI",
+    "legalName": "Deteqt AI",
+    "url": "https://deteqt.ai",
+    "logo": "https://deteqt.ai/assets/images/logo.svg",
+    "foundingDate": "2024",
+    "description": "AI-powered computer vision platform for business intelligence and automation. Transform your business with intelligent vision technology featuring real-time processing, actionable insights, and enterprise-grade security.",
+    "slogan": "Intelligent Vision Platform",
+    "industry": [
+      "Artificial Intelligence",
+      "Computer Vision",
+      "Business Intelligence",
+      "Enterprise Software"
+    ],
+    "contactPoint": {
+      "contactType": "Sales",
+      "url": "https://deteqt.ai"
+    },
+    "socialMedia": {
+      "facebook": "https://www.facebook.com/deteqt/",
+      "linkedin": "https://www.linkedin.com/company/deteqtai/",
+      "instagram": "https://www.instagram.com/deteqtai",
+      "twitter": "@deteqt_ai"
+    },
+    "address": {
+      "addressCountry": "Worldwide"
+    }
+  },
+  "products": [
+    {
+      "name": "Deteqt AI Vision Platform",
+      "description": "Enterprise-grade computer vision platform with real-time processing, actionable business insights, and seamless integration",
+      "category": "Computer Vision AI Platform",
+      "features": [
+        {
+          "name": "Real-Time Processing",
+          "description": "Process visual data in real-time for immediate insights and action"
+        },
+        {
+          "name": "Enterprise-Grade Security",
+          "description": "Bank-level security protocols to protect your sensitive data"
+        },
+        {
+          "name": "Seamless Integration",
+          "description": "Easy integration with your existing business systems and workflows"
+        },
+        {
+          "name": "Actionable Business Insights",
+          "description": "Transform visual data into meaningful business intelligence"
+        },
+        {
+          "name": "Customizable Solutions",
+          "description": "Tailored solutions to meet your specific business needs"
+        },
+        {
+          "name": "Advanced AI Models",
+          "description": "State-of-the-art AI models for accurate and reliable results"
+        },
+        {
+          "name": "Scalable Infrastructure",
+          "description": "Grows with your business needs from startup to enterprise"
+        }
+      ],
+      "targetIndustries": [
+        "Banking and Finance",
+        "Education",
+        "Government",
+        "Heavy Equipment",
+        "Manufacturing",
+        "Retail",
+        "Transportation"
+      ],
+      "benefits": [
+        "Transform business operations with AI-powered computer vision",
+        "Real-time visual data processing and analysis",
+        "Enhanced security and compliance",
+        "Improved operational efficiency",
+        "Data-driven decision making",
+        "Scalable enterprise solutions"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "name": "Computer Vision Solutions",
+      "serviceType": "Computer Vision AI Platform",
+      "description": "Comprehensive AI-powered computer vision solutions for business intelligence and automation",
+      "areaServed": "Worldwide"
+    },
+    {
+      "name": "Demo and Consultation",
+      "serviceType": "Sales and Support",
+      "description": "Personalized demos and consultations to explore how Deteqt AI can transform your business",
+      "url": "https://deteqt.ai"
+    }
+  ],
+  "keywords": [
+    "Deteqt AI",
+    "computer vision",
+    "AI platform",
+    "business intelligence",
+    "metadata aggregation",
+    "real-time processing",
+    "enterprise AI",
+    "vision analytics",
+    "industrial AI",
+    "AI-powered computer vision",
+    "enterprise security",
+    "business automation"
+  ],
+  "useCases": [
+    {
+      "title": "Banking and Finance",
+      "description": "Enhanced security monitoring and fraud detection through intelligent visual analysis"
+    },
+    {
+      "title": "Manufacturing",
+      "description": "Quality control and process optimization through real-time visual inspection"
+    },
+    {
+      "title": "Retail",
+      "description": "Customer analytics and inventory management through intelligent visual tracking"
+    },
+    {
+      "title": "Transportation",
+      "description": "Fleet management and safety monitoring through real-time visual analysis"
+    }
+  ],
+  "callToAction": {
+    "primary": "Book a Demo",
+    "description": "Schedule a personalized demo to see how Deteqt AI can transform your business",
+    "url": "https://deteqt.ai"
+  }
+}
